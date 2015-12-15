@@ -1,0 +1,24 @@
+.elements {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+}
+
+.element {
+  position: relative;
+  float: left;
+  -webkit-transition-duration: 0.15s; /* Safari */
+  transition-duration: 0.15s;
+}
+
+.selectedElements {
+  position: absolute;
+  z-index: 2;
+}
+
+.selectedElement {
+  position: relative;
+  float: left;
+  opacity: 0;
+}

@@ -1,0 +1,16 @@
+<div class="main" ng-controller="gameController as controller">
+    <div class="elements" ng-style="{ 'width': (controller.width + 'px'), 'height': (controller.width + 'px') }">    
+        <!-- Visible elements -->
+    	<div ng-repeat="e in controller.elements">
+            <elem class="element" target="e" ng-style="{ 'width': (controller.elementSize + 'px'), 'height': (controller.elementSize + 'px'), 'background-color': getColor(e) }"/>
+        </div>
+
+        <!-- Control grid -->
+	    <div class="selectedElements" ng-style="{ 'left': (controller.elementSize / 2 + 'px'), 'top': (controller.elementSize / 2 + 'px'), 'width': (controller.width + 'px'), 'height': (controller.width + 'px') }">    
+	        <div ng-repeat="e in controller.elements">
+	            <elem class="selectedElement" ng-click="rotate()" ng-mouseover="toggleSelect($index)" ng-mouseout="toggleSelect($index)" ng-style="{ 'width': (controller.elementSize + 'px'), 'height': (controller.elementSize + 'px')}" />
+	        </div>
+	    </div>
+    </div>
+
+</div>
