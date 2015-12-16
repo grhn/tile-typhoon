@@ -9,16 +9,26 @@ angular
 	this.createGrid = function(size, elementSize) {
 		_this.size = size;
 		_this.elementSize = elementSize;
-		_this.grid = [];
+		//_this.grid = [];
 		for (var i = 1; i <= Math.pow(size, 2); i++) {
 			var element = {
 				value: i,
 				selected: false,
 				rotation: 0
 			};
-			_this.grid.push(element);
+			if (_this.grid.length < i) _this.grid.push(element);
+			else _this.grid[i - 1] = element;
 		}
-		return _this.grid;
+	};
+
+	this.randomizeGrid = function(n) {
+		for (var i = 0; i < n; i++) {
+			var j = Math.floor(Math.random() * (_this.size - 1));
+			j += Math.floor(Math.random() * (_this.size - 1)) * _this.size;
+			_this.toggleSelect(j);
+			_this.rotate();
+			_this.toggleSelect(j);
+		}
 	};
 
 	this.getWidth = function() {
@@ -65,6 +75,25 @@ angular
 			});
 	};
 
+	this.rotate2 = function() {
+		_this.grid
+			.map(function(element, index) {
+				return {
+					value: element.value, 
+					selected: element.selected, 
+					rotation: element.rotation,
+					i: index,
+
+				};
+			})
+			.filter(function(element) { 
+				return element.selected; 
+			})
+			.forEach(function(element, index) {
+				_this.grid[element.i].rotation = (element.rotation + 1) % 4;
+			});
+	};
+
 	this.toggleSelect = function(index) {
 		var s = _this.size;
 		if (index % s < s - 1 && index < Math.pow(s, 2) - s) {
@@ -92,7 +121,6 @@ angular
 		var matches = [];
 		var s = _this.size;
 		var max = Math.pow(s, 2);
-		console.log('checking', grid);
 		
 		var validIndex = function(i) {
 			return i >= 0 && i < max && jQuery.inArray(i, matches) == -1;
@@ -109,8 +137,7 @@ angular
 			// Check neighbors
 			if (value === previousValue) {
 				matches.push(i);
-				console.log(matches);
-
+				
 				if (validIndex(i - 1) && onSameRow(i - 1, i)) innerCheck(i - 1, value);
 				if (validIndex(i + 1) && onSameRow(i, i + 1)) innerCheck(i + 1, value);
 				if (validIndex(i - s)) innerCheck(i - s, value);
@@ -127,5 +154,13 @@ angular
 			}
 			matches = [];
 		});
+	};
+
+	this.checkRotations = function() {
+		return _this.grid
+			.filter(function(element) {
+				return element.rotation != 0;
+			})
+			.length == 0;
 	};
 });

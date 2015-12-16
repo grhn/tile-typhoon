@@ -1,5 +1,5 @@
 .main {
-  position: absolute;
+  position: relative;
   width: 100%;
 }
 
@@ -12,6 +12,8 @@
 
 .element {
   position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
   float: left;
   -webkit-transition-duration: 0.0s; /* Safari */
   transition-duration: 0.0s;
@@ -31,14 +33,24 @@
   opacity: 0;
 }
 
-#button1 {
+.level {
   position: relative;
   width: 100%;
-  height: auto;
-  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  display: block;
   font-size: 32px;
+  text-align: center;
+  z-index: 3; 
+}
+
+.level .txt {
+  position: relative;
+  display: inline-block;
+  border: 1px solid black;
+  margin-top: 20px;
+  padding: 20px;
+  width: auto;
+  font-size: 68px;
+  font-family: courier;
   z-index: 3; 
 }

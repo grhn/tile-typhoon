@@ -6,7 +6,7 @@ angular
     return {
         restrict: 'E',
         scope: {
-            target: '='
+            size: '@'
         },
         templateUrl: 'js/grid/element.html'
     };

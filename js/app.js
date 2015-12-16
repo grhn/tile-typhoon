@@ -3,10 +3,13 @@
 angular
 .module('rotateAndMatch', ['element', 'mainGrid'])
 .controller('gameController', function(GridService) { 
-	this.elementSize = 100;
-	this.size = 4;
-
-	this.elements = GridService.createGrid(this.size, this.elementSize);
+	this.size = 3;
+	this.randomLevel = 1;
+	this.elementSize = 500 / this.size;
+	
+	GridService.createGrid(this.size, this.elementSize);
+	GridService.randomizeGrid(this.randomLevel);
+	this.grid = GridService.grid;
 
 	this.getWidth = function() { 
 		return GridService.getWidth(); 
@@ -17,7 +20,16 @@ angular
 	};
 	
 	this.rotate = function() { 
-		GridService.rotate(); 
+		GridService.rotate();
+		if (GridService.checkRotations()) {
+			this.randomLevel += 1;
+			GridService.createGrid(this.size, this.elementSize);
+			GridService.randomizeGrid(this.randomLevel);
+		}
+	};
+
+	this.rotate2 = function() { 
+		GridService.rotate2(); 
 	};
 
 	this.toggleSelect = function(i) { 
