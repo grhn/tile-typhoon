@@ -23,9 +23,13 @@ angular
 	this.toggleSelect = function(i) { 
 		return GridService.toggleSelect(i); 
 	};
-	
+
 	this.getColor = function(element) {
 		return GridService.getColor(element); 
+	};
+
+	this.checkMatch = function() {
+		GridService.checkMatch();
 	};
 });
 

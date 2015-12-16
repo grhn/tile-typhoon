@@ -1,3 +1,8 @@
+.main {
+  position: absolute;
+  width: 100%;
+}
+
 .elements {
   position: relative;
   margin-left: auto;
@@ -8,8 +13,8 @@
 .element {
   position: relative;
   float: left;
-  -webkit-transition-duration: 0.15s; /* Safari */
-  transition-duration: 0.15s;
+  -webkit-transition-duration: 0.1s; /* Safari */
+  transition-duration: 0.1s;
 }
 
 .selectedElements {
@@ -21,4 +26,16 @@
   position: relative;
   float: left;
   opacity: 0;
+}
+
+#button1 {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  font-size: 32px;
+  z-index: 3; 
 }
