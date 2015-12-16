@@ -1,14 +1,14 @@
-<div class="main" ng-controller="gameController as controller">
-    <div class="elements" ng-style="{ 'width': (controller.width + 'px'), 'height': (controller.width + 'px') }">    
+<div class="main" ng-controller="gameController as gc">
+    <div class="elements" ng-style="{ 'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">    
         <!-- Visible elements -->
-    	<div ng-repeat="e in controller.elements">
-            <elem class="element" target="e" ng-style="{ 'width': (controller.elementSize + 'px'), 'height': (controller.elementSize + 'px'), 'background-color': getColor(e) }"/>
+    	<div ng-repeat="e in gc.elements">
+            <elem class="element" target="e" ng-style="{ 'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px'), 'background-color': gc.getColor(e) }"/>
         </div>
 
         <!-- Control grid -->
-	    <div class="selectedElements" ng-style="{ 'left': (controller.elementSize / 2 + 'px'), 'top': (controller.elementSize / 2 + 'px'), 'width': (controller.width + 'px'), 'height': (controller.width + 'px') }">    
-	        <div ng-repeat="e in controller.elements">
-	            <elem class="selectedElement" ng-click="rotate()" ng-mouseover="toggleSelect($index)" ng-mouseout="toggleSelect($index)" ng-style="{ 'width': (controller.elementSize + 'px'), 'height': (controller.elementSize + 'px')}" />
+	    <div class="selectedElements" ng-style="{ 'left': (gc.elementSize / 2 + 'px'), 'top': (gc.elementSize / 2 + 'px'), 'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">    
+	        <div ng-repeat="e in gc.elements">
+	            <elem class="selectedElement" ng-click="gc.rotate()" ng-mouseover="gc.toggleSelect($index)" ng-mouseout="gc.toggleSelect($index)" ng-style="{ 'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px')}" />
 	        </div>
 	    </div>
     </div>
