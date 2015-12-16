@@ -81,7 +81,6 @@ angular
 		// Recursively check for matches of three or more
 		var grid = _this.grid;
 		var matches = [];
-		var visited = [];
 		var s = _this.size;
 		var max = Math.pow(s, 2);
 		console.log('checking', grid);
@@ -91,7 +90,8 @@ angular
 		};
 
 		var onSameRow = function(i, j) {
-			return (i - 1) % s < j % s;
+			if (i <= j) return i % s <= j % s;
+			else return i % s > j % s;
 		};
 
 		var innerCheck = function(i, previousValue) {
@@ -112,7 +112,9 @@ angular
 		grid.forEach(function(element, index) {
 			innerCheck(index, element.value);
 			if (matches.length > 2) {
-				matches.forEach(function(i) { grid[i].value = 0; });
+				matches.forEach(function(i) { 
+					grid[i].value = 0; 
+				});
 			}
 			matches = [];
 		});
