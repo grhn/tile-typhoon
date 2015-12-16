@@ -13,8 +13,11 @@
 .element {
   position: relative;
   float: left;
-  -webkit-transition-duration: 0.1s; /* Safari */
-  transition-duration: 0.1s;
+  -webkit-transition-duration: 0.0s; /* Safari */
+  transition-duration: 0.0s;
+  font-size: 32px;
+  text-align: center;
+  color: white;
 }
 
 .selectedElements {

@@ -12,8 +12,9 @@ angular
 		_this.grid = [];
 		for (var i = 1; i <= Math.pow(size, 2); i++) {
 			var element = {
-				value: Math.floor((Math.random() * size) + 1),
-				selected: false
+				value: i,
+				selected: false,
+				rotation: 0
 			};
 			_this.grid.push(element);
 		}
@@ -32,7 +33,13 @@ angular
 	this.rotate = function() {
 		_this.grid
 			.map(function(element, index) {
-				return {value: element.value, selected: element.selected, i: index};
+				return {
+					value: element.value, 
+					selected: element.selected, 
+					rotation: element.rotation,
+					i: index,
+
+				};
 			})
 			.filter(function(element) { 
 				return element.selected; 
@@ -52,7 +59,9 @@ angular
 							return 0;
 					};
 				};
-				_this.grid[newIndex(index)].value = element.value;
+				newLocation = _this.grid[newIndex(index)];
+				newLocation.value = element.value;
+				newLocation.rotation = (element.rotation + 1) % 4;
 			});
 	};
 

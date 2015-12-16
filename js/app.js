@@ -4,7 +4,7 @@ angular
 .module('rotateAndMatch', ['element', 'mainGrid'])
 .controller('gameController', function(GridService) { 
 	this.elementSize = 100;
-	this.size = 5;
+	this.size = 4;
 
 	this.elements = GridService.createGrid(this.size, this.elementSize);
 
