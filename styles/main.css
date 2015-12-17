@@ -3,6 +3,11 @@
   width: 100%;
 }
 
+.main p {
+  line-height: 0%;
+  font-family: courier;
+}
+
 .elements {
   position: relative;
   margin-left: auto;
@@ -20,6 +25,7 @@
   font-size: 32px;
   text-align: center;
   color: white;
+  overflow: hidden;
 }
 
 .selectedElements {
@@ -33,24 +39,34 @@
   opacity: 0;
 }
 
-.level {
+.legend {
   position: relative;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 32px;
   text-align: center;
   z-index: 3; 
 }
 
-.level .txt {
+.legend .level {
   position: relative;
   display: inline-block;
   border: 1px solid black;
   margin-top: 20px;
-  padding: 20px;
+  margin-bottom: 20px;
+  padding: 40px;
   width: auto;
+  font-size: 32px;
   font-size: 68px;
   font-family: courier;
+  z-index: 3; 
+}
+
+.legend .instructions {
+  position: relative;
+  display: block;
+  width: auto;
+  font-size: 32px;
+  font-size: 16px;
   z-index: 3; 
 }

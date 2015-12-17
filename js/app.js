@@ -3,7 +3,7 @@
 angular
 .module('rotateAndMatch', ['element', 'mainGrid'])
 .controller('gameController', function(GridService) { 
-	this.size = 3;
+	this.size = 9;
 	this.randomLevel = 1;
 	this.elementSize = 500 / this.size;
 	

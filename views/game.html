@@ -2,7 +2,7 @@
     <div class="elements" ng-style="{ 'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">    
         <!-- Visible elements -->
     	<div ng-repeat="e in gc.grid">
-            <elem class="element" size="{{ gc.elementSize }}" ng-style="{ 'transform': ('rotate(' + e.rotation * 90 + 'deg)'), 'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px'), 'background-color': gc.getColor(e) }"/>
+            <elem class="element" size="{{ gc.elementSize }}" value="{{ e.value }}" index="{{ $index }}" ng-style="{ 'transform': ('rotate(' + e.rotation * 90 + 'deg)'), 'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px'), 'background-color': gc.getColor(e) }"/>
         </div>
 
         <!-- Control grid -->
@@ -12,6 +12,9 @@
 	        </div>
 	    </div>
     </div>
-    <div class="level"><p class="txt">Level {{ gc.randomLevel }}</p></div>
+    <div class="legend">
+        <p class="level">Level {{ gc.randomLevel }}</p>
+        <p class="instructions"><strong>Game goal</strong> </p>
+    </div>
 
 </div>

@@ -6,7 +6,10 @@ angular
     return {
         restrict: 'E',
         scope: {
-            size: '@'
+            size: '@',
+            value: '@',
+            index: '@',
+            controller: '='
         },
         templateUrl: 'js/grid/element.html'
     };

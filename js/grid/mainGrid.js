@@ -131,22 +131,23 @@ angular
 			else return i % s > j % s;
 		};
 
-		var innerCheck = function(i, previousValue) {
+		var innerCheck = function(i, previousValue, previousRotation) {
 			var value = grid[i].value;
+			var rotation = grid[i].rotation;
 			
 			// Check neighbors
-			if (value === previousValue) {
+			if (value === previousValue + 1 && rotation === previousRotation) {
 				matches.push(i);
 				
-				if (validIndex(i - 1) && onSameRow(i - 1, i)) innerCheck(i - 1, value);
-				if (validIndex(i + 1) && onSameRow(i, i + 1)) innerCheck(i + 1, value);
-				if (validIndex(i - s)) innerCheck(i - s, value);
-				if (validIndex(i + s)) innerCheck(i + s, value);
+				if (validIndex(i - 1) && onSameRow(i - 1, i)) innerCheck(i - 1, value, rotation);
+				if (validIndex(i + 1) && onSameRow(i, i + 1)) innerCheck(i + 1, value, rotation);
+				if (validIndex(i - s)) innerCheck(i - s, value, rotation);
+				if (validIndex(i + s)) innerCheck(i + s, value, rotation);
 			}
 		};
 
 		grid.forEach(function(element, index) {
-			innerCheck(index, element.value);
+			innerCheck(index, element.value - 1, element.rotation);
 			if (matches.length > 2) {
 				matches.forEach(function(i) { 
 					grid[i].value = 0; 
@@ -158,8 +159,8 @@ angular
 
 	this.checkRotations = function() {
 		return _this.grid
-			.filter(function(element) {
-				return element.rotation != 0;
+			.filter(function(element, index) {
+				return element.rotation != 0 || element.value !== index + 1;
 			})
 			.length == 0;
 	};
