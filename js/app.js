@@ -4,8 +4,8 @@ angular
 .module('rotateAndMatch', ['element', 'mainGrid'])
 .controller('gameController', function(GridService) { 
 	this.size = 9;
-	this.randomLevel = 1;
-	this.elementSize = 500 / this.size;
+	this.randomLevel = 10;
+	this.elementSize = Math.floor(500 / this.size);
 	
 	GridService.createGrid(this.size, this.elementSize);
 	GridService.randomizeGrid(this.randomLevel);
@@ -21,7 +21,7 @@ angular
 	
 	this.rotate = function() { 
 		GridService.rotate();
-		if (GridService.checkRotations()) {
+		if (GridService.checkPositions()) {
 			this.randomLevel += 1;
 			GridService.createGrid(this.size, this.elementSize);
 			GridService.randomizeGrid(this.randomLevel);

@@ -4,8 +4,17 @@
 }
 
 .main p {
-  line-height: 0%;
+  line-height: 100%;
   font-family: courier;
+  text-align: center;
+  font-size: 16px;
+}
+
+.main h1 {
+  line-height: 100%;
+  font-family: courier;
+  text-align: center;
+  font-size: 16px;
 }
 
 .elements {
@@ -22,8 +31,6 @@
   float: left;
   -webkit-transition-duration: 0.0s; /* Safari */
   transition-duration: 0.0s;
-  font-size: 32px;
-  text-align: center;
   color: white;
   overflow: hidden;
 }
@@ -66,7 +73,5 @@
   position: relative;
   display: block;
   width: auto;
-  font-size: 32px;
-  font-size: 16px;
   z-index: 3; 
 }

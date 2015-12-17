@@ -1,20 +1,24 @@
 <div class="main" ng-controller="gameController as gc">
+    <div>
+        <h1>W h i r l w i n d</h1>
+    </div>
     <div class="elements" ng-style="{ 'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">    
         <!-- Visible elements -->
     	<div ng-repeat="e in gc.grid">
-            <elem class="element" size="{{ gc.elementSize }}" value="{{ e.value }}" index="{{ $index }}" ng-style="{ 'transform': ('rotate(' + e.rotation * 90 + 'deg)'), 'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px'), 'background-color': gc.getColor(e) }"/>
+            <elem class="element" size="{{ gc.elementSize }}" value="{{ e.rotation }}" index="{{ $index }}" ng-style="{'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px'), 'background-color': gc.getColor(e) }"/>
         </div>
 
         <!-- Control grid -->
-	    <div class="selectedElements" ng-style="{ 'left': (gc.elementSize / 2 + 'px'), 'top': (gc.elementSize / 2 + 'px'), 'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">    
+	    <div class="selectedElements" ng-style="{'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">    
 	        <div ng-repeat="e in gc.grid">
 	            <elem class="selectedElement" ng-click="gc.rotate()" ng-mouseover="gc.toggleSelect($index)" ng-mouseout="gc.toggleSelect($index)" ng-style="{ 'width': (gc.elementSize + 'px'), 'height': (gc.elementSize + 'px')}" />
 	        </div>
 	    </div>
     </div>
-    <div class="legend">
+    <div class="legend" ng-style="{ 'width': (gc.getWidth() + 'px')}">
         <p class="level">Level {{ gc.randomLevel }}</p>
-        <p class="instructions"><strong>Game goal</strong> </p>
+        <p class="instructions"><strong>Game goal</strong> is to order grid so that there is 9 squares consisting of 9 smaller tiles of the same color.</p>
+        <p class="instructions"><strong>Tiles can be moved</strong> by clicking any 3 x 3 subgrid, which will rotate it clockwise.</p>
     </div>
 
 </div>

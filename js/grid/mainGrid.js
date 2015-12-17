@@ -9,26 +9,37 @@ angular
 	this.createGrid = function(size, elementSize) {
 		_this.size = size;
 		_this.elementSize = elementSize;
-		//_this.grid = [];
-		for (var i = 1; i <= Math.pow(size, 2); i++) {
+		
+		var generateValue = function(i) {
+			var sideLength = Math.floor(Math.sqrt(size));
+			return Math.floor(i / 3) 
+				% sideLength 
+				+ sideLength
+				* Math.floor(i / (3 * size)) + 1;
+		};
+
+		for (var i = 0; i < Math.pow(size, 2); i++) {
 			var element = {
-				value: i,
+				value: generateValue(i),
 				selected: false,
 				rotation: 0
 			};
-			if (_this.grid.length < i) _this.grid.push(element);
-			else _this.grid[i - 1] = element;
+			if (_this.grid.length <= i) _this.grid.push(element);
+			else _this.grid[i] = element;
 		}
 	};
 
 	this.randomizeGrid = function(n) {
+		var s = _this.size;
+		var j = s + 1;
 		for (var i = 0; i < n; i++) {
-			var j = Math.floor(Math.random() * (_this.size - 1));
-			j += Math.floor(Math.random() * (_this.size - 1)) * _this.size;
+			var k = Math.floor(Math.random() * _this.size) + 1;
+			j = (j + k) % (_this.grid.length - 2 * s) + s;
 			_this.toggleSelect(j);
 			_this.rotate();
 			_this.toggleSelect(j);
 		}
+		if (_this.checkPositions()) _this.randomizeGrid(n);
 	};
 
 	this.getWidth = function() {
@@ -55,15 +66,22 @@ angular
 				return element.selected; 
 			})
 			.forEach(function(element, index) {
+				var s = _this.size;
 				var newIndex = function(ind) {
 					switch (ind) {
 						case 0:
-							return element.i + 1;
 						case 1:
-							return element.i + _this.size;
+							return element.i + 1;
 						case 2:
-							return element.i - _this.size;
+						case 5:
+							return element.i + s;
 						case 3:
+						case 6:
+							return element.i - s;
+						case 4:
+							return element.i;
+						case 7:
+						case 8:
 							return element.i - 1;
 						default:
 							return 0;
@@ -96,22 +114,27 @@ angular
 
 	this.toggleSelect = function(index) {
 		var s = _this.size;
-		if (index % s < s - 1 && index < Math.pow(s, 2) - s) {
-			for (var i = 0; i < 4; i++) {
-				var m = i > 1 ? s - 2 : 0;
-				_this.grid[index + i + m].selected ^= true;
+		if (index % s > 0 && index % s < s - 1 && index < Math.pow(s, 2) - s) {
+			for (var i = 0; i < 3; i++) {
+				_this.grid[index + i - s - 1].selected ^= true;
+			}
+			for (var i = 0; i < 3; i++) {
+				_this.grid[index + i - 1].selected ^= true;
+			}
+			for (var i = 0; i < 3; i++) {
+				_this.grid[index + i + s - 1].selected ^= true;
 			}
 		}
 	};
 
 	this.getColor = function(element) {	
-		var highlight = element.selected ? 64 : 0;
+		var highlight = element.selected ? 32 : 0;
 		return 'rgb(' 
-			+ (highlight + element.value * 64 % 192) 
+			+ (highlight + element.value * 64 % 192 + 64) 
 			+ ',' 
-			+ (highlight + element.value * 8 % 196) 
+			+ (highlight + element.value * 16 % 128) 
 			+ ',' 
-			+ (highlight + element.value * 48 % 196) 
+			+ (highlight + element.value * 48 % 128 + 64) 
 			+ ')';
 	};
 
@@ -157,11 +180,19 @@ angular
 		});
 	};
 
-	this.checkRotations = function() {
-		return _this.grid
-			.filter(function(element, index) {
-				return element.rotation != 0 || element.value !== index + 1;
-			})
-			.length == 0;
+	this.checkPositions = function() {
+		var check = true;
+		var squareSize = Math.round(Math.sqrt(_this.size));
+		var n = Math.pow(squareSize, 2);
+		for (var k = 0; k < _this.size; k++) {
+			var offset = Math.floor(k / squareSize) * squareSize * n + Math.floor(k * squareSize) % _this.size;
+			var value = _this.grid[offset].value;
+			for (var i = 0; i < squareSize; i++) {
+				for (var j = offset; j < offset + squareSize; j++) {
+					check &= _this.grid[i * _this.size + j].value === value;
+				}
+			}
+		}
+		return check;
 	};
 });
