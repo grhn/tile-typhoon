@@ -3,14 +3,22 @@
 angular
 .module('rotateAndMatch', ['element', 'mainGrid'])
 .controller('gameController', function(GridService) { 
-	this.size = 9;
-	this.randomLevel = 10;
-	this.elementSize = Math.floor(500 / this.size);
+	this.gridSize = 9;
+	this.startLevel = 1;
+	this.model = GridService;
 	
-	GridService.createGrid(this.size, this.elementSize);
-	GridService.randomizeGrid(this.randomLevel);
-	this.grid = GridService.grid;
+	GridService.createGrid(this.gridSize);
+	GridService.increaseRandomness(this.startLevel);
+	GridService.randomizeGrid();
 
+	this.getGrid = function() {
+		return GridService.grid;
+	};
+
+	this.getElementSize = function() { 
+		return GridService.elementSize; 
+	};
+	
 	this.getWidth = function() { 
 		return GridService.getWidth(); 
 	};
@@ -19,17 +27,17 @@ angular
 		return GridService.getBorders(); 
 	};
 	
+	this.getRandomness = function() { 
+		return GridService.randomness; 
+	};
+	
 	this.rotate = function() { 
 		GridService.rotate();
 		if (GridService.checkPositions()) {
-			this.randomLevel += 1;
-			GridService.createGrid(this.size, this.elementSize);
-			GridService.randomizeGrid(this.randomLevel);
+			GridService.createGrid(this.gridSize);
+			GridService.increaseRandomness(1);
+			GridService.randomizeGrid();
 		}
-	};
-
-	this.rotate2 = function() { 
-		GridService.rotate2(); 
 	};
 
 	this.toggleSelect = function(i) { 
@@ -38,10 +46,6 @@ angular
 
 	this.getColor = function(element) {
 		return GridService.getColor(element); 
-	};
-
-	this.checkMatch = function() {
-		GridService.checkMatch();
 	};
 });
 

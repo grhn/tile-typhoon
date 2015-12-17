@@ -6,11 +6,15 @@ angular
     return {
         restrict: 'E',
         scope: {
-            size: '@',
-            value: '@',
-            index: '@',
-            controller: '='
+            ngModel: '=',
+            size: '='
         },
-        templateUrl: 'js/grid/element.html'
+        templateUrl: 'js/grid/element.html',
+        link: function(scope, elem, attr){
+            scope.$watch('size', function(value){
+                elem.css('width', value);
+                elem.css('height', value);
+            });
+        }
     };
 });

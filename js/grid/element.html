@@ -1,5 +1,7 @@
-<div>
-	<svg height="{{ size }}" width="{{ size }}" >
-	  <rect width="{{ size }}" height="{{ size }}" style="stroke:black; stroke-width: 1px; fill:none;" transform="translate(0, 0)"/>
-	</svg>
+<div style="background-color: red;">
+    <svg width="{{ size }}" height="{{ size }}" opacity="1">
+        <rect width="{{ size }}" height="{{ size }}" style="stroke:black; stroke-width: 1px; fill: {{ ngModel.getColor($parent.e) }};" />
+    </svg>
+<!--
+-->
 </div>

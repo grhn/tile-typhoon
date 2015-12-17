@@ -2,13 +2,14 @@ angular
 .module('mainGrid', [])
 .service('GridService', function() {
 	this.size = 0;
-	this.elementSize = 10;
+	this.elementSize = 0;
+	this.randomness = 0;
 	this.grid = [];
 	var _this = this;
 	
-	this.createGrid = function(size, elementSize) {
+	this.createGrid = function(size) {
 		_this.size = size;
-		_this.elementSize = elementSize;
+		_this.elementSize = Math.floor(500 / size);
 		
 		var generateValue = function(i) {
 			var sideLength = Math.floor(Math.sqrt(size));
@@ -29,17 +30,21 @@ angular
 		}
 	};
 
-	this.randomizeGrid = function(n) {
+	this.increaseRandomness = function(n) {
+		_this.randomness += n;
+	};
+
+	this.randomizeGrid = function() {
 		var s = _this.size;
 		var j = s + 1;
-		for (var i = 0; i < n; i++) {
-			var k = Math.floor(Math.random() * _this.size) + 1;
+		for (var i = 0; i < _this.randomness; i++) {
+			var k = Math.floor(Math.random() * 2) + 1;
 			j = (j + k) % (_this.grid.length - 2 * s) + s;
 			_this.toggleSelect(j);
 			_this.rotate();
 			_this.toggleSelect(j);
 		}
-		if (_this.checkPositions()) _this.randomizeGrid(n);
+		if (_this.checkPositions()) _this.randomizeGrid();
 	};
 
 	this.getWidth = function() {
@@ -114,7 +119,7 @@ angular
 
 	this.toggleSelect = function(index) {
 		var s = _this.size;
-		if (index % s > 0 && index % s < s - 1 && index < Math.pow(s, 2) - s) {
+		if (index > s && index % s > 0 && index % s < s - 1 && index < Math.pow(s, 2) - s) {
 			for (var i = 0; i < 3; i++) {
 				_this.grid[index + i - s - 1].selected ^= true;
 			}
