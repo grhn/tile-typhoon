@@ -2,142 +2,171 @@
 
 angular
 .module('mainGrid', [])
+//////////////////////////////////////////////////////////////////////
+// The model
+//////////////////////////////////////////////////////////////////////
 .service('GridService', function() {
-	this.size = 0;
-	this.elementSize = 0;
-	this.randomness = 0;
-	this.grid = [];
-	this.gridReady = false;
-	var _this = this;
-	
-	this.createGrid = function(size) {
-		_this.size = size;
-		_this.elementSize = Math.floor(500 / size);
-		
-		var generateValue = function(i) {
-			var sideLength = Math.floor(Math.sqrt(size));
-			return Math.floor(i / 3) 
-				% sideLength 
-				+ sideLength
-				* Math.floor(i / (3 * size)) + 1;
-		};
+    this.size = 0;
+    this.elementSize = 0;
+    this.randomness = 0;
+    this.grid = [];
+    var _this = this;
+    
+    //////////////////////////////////////////////////////////////////////
+    // Initialize <size> x <size> grid
+    //////////////////////////////////////////////////////////////////////
+    this.createGrid = function(size) {
+        _this.size = size;
+        _this.elementSize = Math.floor(500 / size);
+        
+        var generateValue = function(i) {
+            var sideLength = Math.floor(Math.sqrt(size));
+            return Math.floor(i / 3) 
+                % sideLength 
+                + sideLength
+                * Math.floor(i / (3 * size)) + 1;
+        };
 
-		for (var i = 0; i < Math.pow(size, 2); i++) {
-			var element = {
-				value: generateValue(i),
-				selected: false,
-				rotation: 0
-			};
-			if (_this.grid.length <= i) _this.grid.push(element);
-			else _this.grid[i] = element;
-		}
-		_this.gridReady = true;
-	};
+        for (var i = 0; i < Math.pow(size, 2); i++) {
+            var element = {
+                value: generateValue(i),
+                focused: false
+            };
+            if (_this.grid.length <= i) _this.grid.push(element);
+            else _this.grid[i] = element;
+        }
+    };
 
-	this.increaseRandomness = function(n) {
-		_this.randomness += n;
-	};
+    this.increaseRandomness = function(n) {
+        _this.randomness += n;
+    };
 
-	this.randomizeGrid = function() {
-		var s = _this.size;
-		var j = s + 1;
-		for (var i = 0; i < _this.randomness; i++) {
-			var k = Math.floor(Math.random() * 2) + 1;
-			j = (j + k) % (_this.grid.length - 2 * s) + s;
-			_this.toggleSelect(j);
-			_this.rotate();
-			_this.toggleSelect(j);
-		}
-		if (_this.checkPositions()) _this.randomizeGrid();
-	};
+    //////////////////////////////////////////////////////////////////////
+    // Make random subgrid rotations
+    //////////////////////////////////////////////////////////////////////
+    this.randomizeGrid = function() {
+        var s = _this.size;
+        var j = s + 1;
+        for (var i = 0; i < _this.randomness; i++) {
+            var k = Math.floor(Math.random() * 2) + 1;
+            j = (j + k) % (_this.grid.length - 2 * s) + s;
+            _this.toggleFocus(j);
+            _this.rotate();
+            _this.toggleFocus(j);
+        }
+        if (_this.checkPositions()) _this.randomizeGrid();
+    };
 
-	this.getWidth = function() {
-		return _this.size * _this.elementSize;
-	};
+    //////////////////////////////////////////////////////////////////////
+    // Return width in pixels
+    // TODO: should be implemented completely in view
+    //////////////////////////////////////////////////////////////////////
+    this.getWidthPixels = function() {
+        return _this.size * _this.elementSize;
+    };
 
-	this.getBorders = function() {
-		return 'width:' + (_this.elementSize + 'px') + ','
-			+ 'height:' + (_this.elementSize + 'px') + ',';
-	};
+    //////////////////////////////////////////////////////////////////////
+    // Rotate 3 x 3 subgrid (focused elements)
+    // TODO: generalize for n x n subgrid
+    //////////////////////////////////////////////////////////////////////
+    this.rotate = function() {
+        _this.grid
+            .map(function(element, index) {
+                return {
+                    value: element.value, 
+                    focused: element.focused, 
+                    i: index,
+                };
+            })
+            .filter(function(element) { 
+                return element.focused; 
+            })
+            .forEach(function(element, index) {
+                var s = _this.size;
+                var newIndex = function(ind) {
+                    switch (ind) {
+                        case 0:
+                        case 1:
+                            return element.i + 1;
+                        case 2:
+                        case 5:
+                            return element.i + s;
+                        case 3:
+                        case 6:
+                            return element.i - s;
+                        case 4:
+                            return element.i;
+                        case 7:
+                        case 8:
+                            return element.i - 1;
+                        default:
+                            return 0;
+                    };
+                };
+                var newLocation = _this.grid[newIndex(index)];
+                newLocation.value = element.value;
+            });
 
-	this.rotate = function() {
-		_this.grid
-			.map(function(element, index) {
-				return {
-					value: element.value, 
-					selected: element.selected, 
-					rotation: element.rotation,
-					i: index,
+        if (_this.checkPositions()) {
+            _this.createGrid(_this.size);
+            _this.increaseRandomness(1);
+            _this.randomizeGrid();
+        }
+    };
 
-				};
-			})
-			.filter(function(element) { 
-				return element.selected; 
-			})
-			.forEach(function(element, index) {
-				var s = _this.size;
-				var newIndex = function(ind) {
-					switch (ind) {
-						case 0:
-						case 1:
-							return element.i + 1;
-						case 2:
-						case 5:
-							return element.i + s;
-						case 3:
-						case 6:
-							return element.i - s;
-						case 4:
-							return element.i;
-						case 7:
-						case 8:
-							return element.i - 1;
-						default:
-							return 0;
-					};
-				};
-				var newLocation = _this.grid[newIndex(index)];
-				newLocation.value = element.value;
-				newLocation.rotation = (element.rotation + 1) % 4;
-			});
-	};
+    //////////////////////////////////////////////////////////////////////
+    // Toggle focus state of elements in 3 x 3 subgrid where @index
+    // is the middle element
+    // TODO: generalize for n x n subgrid
+    //////////////////////////////////////////////////////////////////////
+    this.toggleFocus = function(index) {
+        var s = _this.size;
+        if (index > s && index % s > 0 && index % s < s - 1 && index < Math.pow(s, 2) - s) {
+            for (var i = 0; i < 3; i++) {
+                _this.grid[index + i - s - 1].focused ^= true;
+            }
+            for (var i = 0; i < 3; i++) {
+                _this.grid[index + i - 1].focused ^= true;
+            }
+            for (var i = 0; i < 3; i++) {
+                _this.grid[index + i + s - 1].focused ^= true;
+            }
+        }
+    };
 
-	this.toggleSelect = function(index) {
-		var s = _this.size;
-		if (index > s && index % s > 0 && index % s < s - 1 && index < Math.pow(s, 2) - s) {
-			for (var i = 0; i < 3; i++) {
-				_this.grid[index + i - s - 1].selected ^= true;
-			}
-			for (var i = 0; i < 3; i++) {
-				_this.grid[index + i - 1].selected ^= true;
-			}
-			for (var i = 0; i < 3; i++) {
-				_this.grid[index + i + s - 1].selected ^= true;
-			}
-		}
-	};
-
-	this.checkPositions = function() {
-		var check = true;
-		var squareSize = Math.round(Math.sqrt(_this.size));
-		var n = Math.pow(squareSize, 2);
-		for (var k = 0; k < _this.size; k++) {
-			var offset = Math.floor(k / squareSize) * squareSize * n + Math.floor(k * squareSize) % _this.size;
-			var value = _this.grid[offset].value;
-			for (var i = 0; i < squareSize; i++) {
-				for (var j = offset; j < offset + squareSize; j++) {
-					check &= _this.grid[i * _this.size + j].value === value;
-				}
-			}
-		}
-		return check;
-	};
+    //////////////////////////////////////////////////////////////////////
+    // Check if element values are equal inside each n x n subgrid
+    //////////////////////////////////////////////////////////////////////
+    this.checkPositions = function() {
+        var check = true;
+        var squareSize = Math.round(Math.sqrt(_this.size));
+        var n = Math.pow(squareSize, 2);
+        for (var k = 0; k < _this.size; k++) {
+            
+            // Offset by first index of each subgrid
+            var offset = Math.floor(k / squareSize) * squareSize * n + Math.floor(k * squareSize) % _this.size;
+            
+            // Comparision value
+            var value = _this.grid[offset].value;
+            for (var i = 0; i < squareSize; i++) {
+                for (var j = offset; j < offset + squareSize; j++) {
+                    
+                    // Chain comparision results
+                    check &= _this.grid[i * _this.size + j].value === value;
+                }
+            }
+        }
+        return check;
+    };
 })
+//////////////////////////////////////////////////////////////////////
+// The view
+//////////////////////////////////////////////////////////////////////
 .directive('gameGrid', function() {
     return {
         restrict: 'A',
         scope: {
-            gc: '=',
+            ngModel: '=',
         },
         templateUrl: 'js/grid/mainGrid.html'
     };

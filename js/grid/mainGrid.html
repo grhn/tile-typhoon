@@ -1,13 +1,13 @@
-<div class="elements" set-size w="gc.getWidth()" h="gc.getWidth()">
+<div class="elements" set-size w="ngModel.getWidthPixels()" h="ngModel.getWidthPixels()">
     <!-- Visible elements -->
-    <div ng-repeat="e in gc.getGrid()">
-        <elem class="element" ng-model="gc.model" content="e" />
+    <div ng-repeat="e in ngModel.grid">
+        <elem class="element" ng-model="ngModel" content="e" />
     </div>
     
     <!-- Control grid -->
-    <div class="selectedElements" set-size w="gc.getWidth()" h="gc.getWidth()">
-        <div ng-repeat="e in gc.getGrid()">
-            <div class="selectedElement" ng-click="gc.rotate()" ng-mouseover="gc.toggleSelect($index)" ng-mouseout="gc.toggleSelect($index)" set-size w="gc.getElementSize()" h="gc.getElementSize()" />
+    <div class="selectedElements" set-size w="ngModel.getWidthPixels()" h="ngModel.getWidthPixels()">
+        <div ng-repeat="e in ngModel.grid">
+            <div class="selectedElement" ng-click="ngModel.rotate()" ng-mouseover="ngModel.toggleFocus($index)" ng-mouseout="ngModel.toggleFocus($index)" set-size w="ngModel.elementSize" h="ngModel.elementSize" />
         </div>
     </div>
 </div>

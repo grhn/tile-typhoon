@@ -4,10 +4,10 @@
     </div>
     
     <!-- Actual game content -->
-    <div game-grid gc="gc" />
+    <div game-grid ng-model="gc.model" />
 
     <!-- Instructions -->
-    <div class="legend" set-size w="gc.getWidth()">
+    <div class="legend" set-size w="gc.getWidthPixels()">
         <p class="level">Level {{ gc.getRandomness() }}</p>
         <p class="instructions"><strong>Game goal</strong> is to order grid so that there is 9 squares consisting of 9 smaller tiles of the same color.</p>
         <p class="instructions"><strong>Tiles can be rearranged</strong> by clicking any 3 x 3 subgrid, which will rotate it clockwise.</p>
