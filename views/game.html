@@ -3,21 +3,11 @@
         <h1>Tile Typhoon</h1>
     </div>
     
-    <div class="elements" ng-style="{ 'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">
-        <!-- Visible elements -->
-        <div ng-repeat="e in gc.getGrid()">
-            <elem class="element" ng-model="gc.model" size="gc.model.elementSize" />
-        </div>
-        
-        <!-- Control grid -->
-        <div class="selectedElements" ng-style="{'width': (gc.getWidth() + 'px'), 'height': (gc.getWidth() + 'px') }">
-            <div ng-repeat="e in gc.getGrid()">
-                <div class="selectedElement" ng-click="gc.rotate()" ng-mouseover="gc.toggleSelect($index)" ng-mouseout="gc.toggleSelect($index)" ng-style="{ 'width': (gc.getElementSize() + 'px'), 'height': (gc.getElementSize() + 'px')}" />
-            </div>
-        </div>
-    </div>
-    
-    <div class="legend" ng-style="{ 'width': (gc.getWidth() + 'px')}">
+    <!-- Actual game content -->
+    <div game-grid gc="gc" />
+
+    <!-- Instructions -->
+    <div class="legend" set-size w="gc.getWidth()">
         <p class="level">Level {{ gc.getRandomness() }}</p>
         <p class="instructions"><strong>Game goal</strong> is to order grid so that there is 9 squares consisting of 9 smaller tiles of the same color.</p>
         <p class="instructions"><strong>Tiles can be rearranged</strong> by clicking any 3 x 3 subgrid, which will rotate it clockwise.</p>

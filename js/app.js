@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-.module('rotateAndMatch', ['element', 'mainGrid'])
+.module('rotateAndMatch', ['mainGrid', 'element'])
 .controller('gameController', function(GridService) { 
 	this.gridSize = 9;
 	this.startLevel = 1;
@@ -43,9 +43,36 @@ angular
 	this.toggleSelect = function(i) { 
 		return GridService.toggleSelect(i); 
 	};
-
-	this.getColor = function(element) {
-		return GridService.getColor(element); 
-	};
-});
+})
+.directive('setSize', function() {
+	return {
+        restrict: 'A',
+        scope: {
+            w: '=',
+            h: '='
+        },
+        link: function(scope, elem, attr){
+            scope.$watch('w', function(w){
+            	elem.css('width', w);
+                elem.css('height', w);
+            });
+            scope.$watch('h', function(h){
+            	elem.css('width', h);
+                elem.css('height', h);
+            });
+        }
+    };
+})
+.filter('color', function() {           
+   return function(element) {
+       	var highlight = element.selected ? 32 : 0;
+		return 'rgb(' 
+			+ (highlight + element.value * 64 % 192 + 64) 
+			+ ',' 
+			+ (highlight + element.value * 16 % 128) 
+			+ ',' 
+			+ (highlight + element.value * 48 % 128 + 64) 
+			+ ')';
+   }
+ });
 

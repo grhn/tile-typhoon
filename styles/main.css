@@ -6,16 +6,16 @@
 .main p {
   line-height: 100%;
   font-family: courier;
-  text-align: center;
   font-size: 16px;
+  text-align: center;
 }
 
 .main h1 {
   line-height: 100%;
   font-family: courier;
+  font-size: 16px;
   text-align: center;
   letter-spacing: 10px;
-  font-size: 16px;
 }
 
 .elements {
@@ -27,19 +27,17 @@
 
 .element {
   position: relative;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
   float: left;
   -webkit-transition-duration: 0.0s; /* Safari */
   transition-duration: 0.0s;
   color: white;
-  overflow: hidden;
-  background-color: black;
 }
 
 .selectedElements {
   position: absolute;
-  z-index: 2;
+  z-index: 1;
 }
 
 .selectedElement {
@@ -54,26 +52,26 @@
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  z-index: 3; 
+  z-index: 2; 
 }
 
 .legend .level {
   position: relative;
-  display: inline-block;
-  border: 1px solid black;
   margin-top: 20px;
   margin-bottom: 20px;
+  display: inline-block;
+  border: 1px solid black;
   padding: 40px;
   width: auto;
   font-size: 32px;
   font-size: 68px;
   font-family: courier;
-  z-index: 3; 
+  z-index: 2; 
 }
 
 .legend .instructions {
   position: relative;
   display: block;
   width: auto;
-  z-index: 3; 
+  z-index: 2; 
 }

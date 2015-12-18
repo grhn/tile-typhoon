@@ -1,0 +1,13 @@
+<div class="elements" set-size w="gc.getWidth()" h="gc.getWidth()">
+    <!-- Visible elements -->
+    <div ng-repeat="e in gc.getGrid()">
+        <elem class="element" ng-model="gc.model" content="e" />
+    </div>
+    
+    <!-- Control grid -->
+    <div class="selectedElements" set-size w="gc.getWidth()" h="gc.getWidth()">
+        <div ng-repeat="e in gc.getGrid()">
+            <div class="selectedElement" ng-click="gc.rotate()" ng-mouseover="gc.toggleSelect($index)" ng-mouseout="gc.toggleSelect($index)" set-size w="gc.getElementSize()" h="gc.getElementSize()" />
+        </div>
+    </div>
+</div>

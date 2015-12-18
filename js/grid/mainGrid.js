@@ -1,3 +1,5 @@
+'use strict';
+
 angular
 .module('mainGrid', [])
 .service('GridService', function() {
@@ -5,6 +7,7 @@ angular
 	this.elementSize = 0;
 	this.randomness = 0;
 	this.grid = [];
+	this.gridReady = false;
 	var _this = this;
 	
 	this.createGrid = function(size) {
@@ -28,6 +31,7 @@ angular
 			if (_this.grid.length <= i) _this.grid.push(element);
 			else _this.grid[i] = element;
 		}
+		_this.gridReady = true;
 	};
 
 	this.increaseRandomness = function(n) {
@@ -92,28 +96,9 @@ angular
 							return 0;
 					};
 				};
-				newLocation = _this.grid[newIndex(index)];
+				var newLocation = _this.grid[newIndex(index)];
 				newLocation.value = element.value;
 				newLocation.rotation = (element.rotation + 1) % 4;
-			});
-	};
-
-	this.rotate2 = function() {
-		_this.grid
-			.map(function(element, index) {
-				return {
-					value: element.value, 
-					selected: element.selected, 
-					rotation: element.rotation,
-					i: index,
-
-				};
-			})
-			.filter(function(element) { 
-				return element.selected; 
-			})
-			.forEach(function(element, index) {
-				_this.grid[element.i].rotation = (element.rotation + 1) % 4;
 			});
 	};
 
@@ -132,59 +117,6 @@ angular
 		}
 	};
 
-	this.getColor = function(element) {	
-		var highlight = element.selected ? 32 : 0;
-		return 'rgb(' 
-			+ (highlight + element.value * 64 % 192 + 64) 
-			+ ',' 
-			+ (highlight + element.value * 16 % 128) 
-			+ ',' 
-			+ (highlight + element.value * 48 % 128 + 64) 
-			+ ')';
-	};
-
-	this.checkMatch = function() {
-		// Recursively check for matches of three or more
-		var grid = _this.grid;
-		var matches = [];
-		var s = _this.size;
-		var max = Math.pow(s, 2);
-		
-		var validIndex = function(i) {
-			return i >= 0 && i < max && jQuery.inArray(i, matches) == -1;
-		};
-
-		var onSameRow = function(i, j) {
-			if (i <= j) return i % s <= j % s;
-			else return i % s > j % s;
-		};
-
-		var innerCheck = function(i, previousValue, previousRotation) {
-			var value = grid[i].value;
-			var rotation = grid[i].rotation;
-			
-			// Check neighbors
-			if (value === previousValue + 1 && rotation === previousRotation) {
-				matches.push(i);
-				
-				if (validIndex(i - 1) && onSameRow(i - 1, i)) innerCheck(i - 1, value, rotation);
-				if (validIndex(i + 1) && onSameRow(i, i + 1)) innerCheck(i + 1, value, rotation);
-				if (validIndex(i - s)) innerCheck(i - s, value, rotation);
-				if (validIndex(i + s)) innerCheck(i + s, value, rotation);
-			}
-		};
-
-		grid.forEach(function(element, index) {
-			innerCheck(index, element.value - 1, element.rotation);
-			if (matches.length > 2) {
-				matches.forEach(function(i) { 
-					grid[i].value = 0; 
-				});
-			}
-			matches = [];
-		});
-	};
-
 	this.checkPositions = function() {
 		var check = true;
 		var squareSize = Math.round(Math.sqrt(_this.size));
@@ -200,4 +132,15 @@ angular
 		}
 		return check;
 	};
+})
+.directive('gameGrid', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            gc: '=',
+        },
+        templateUrl: 'js/grid/mainGrid.html'
+    };
 });
+
+

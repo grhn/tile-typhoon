@@ -7,14 +7,16 @@ angular
         restrict: 'E',
         scope: {
             ngModel: '=',
-            size: '='
+            size: '=',
+            content: '='
         },
         templateUrl: 'js/grid/element.html',
         link: function(scope, elem, attr){
-            scope.$watch('size', function(value){
-                elem.css('width', value);
-                elem.css('height', value);
+            scope.$watch('ngModel.elementSize', function(s){
+                elem.css('width', s);
+                elem.css('height', s);
             });
         }
     };
 });
+
