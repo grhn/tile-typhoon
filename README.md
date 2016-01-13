@@ -21,7 +21,7 @@ Rotate 3 x 3 subgrids clockwise by clicking them - game goal is to order grid so
 
 Tests are located in 'test/' folder.
 
-#### TODO:
+## TODO
 + scoring
 + animations
 + more tests
