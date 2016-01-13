@@ -21,6 +21,7 @@ Karma / Jasmine / PhantomJS are used for unit testing. Tests are located in 'tes
 + scoring
 + animations
 + more tests
++ fix grid border rendering on Safari
 
 ## Play
 http://grhn.github.io/

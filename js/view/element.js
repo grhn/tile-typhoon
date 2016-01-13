@@ -9,7 +9,6 @@ angular
     return {
         restrict: 'E',
         scope: {
-            ngModel: '=',
             size: '=',
             content: '='
         },
