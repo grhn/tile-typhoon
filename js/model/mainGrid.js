@@ -7,7 +7,6 @@ angular
 //////////////////////////////////////////////////////////////////////
 .service('GridService', function() {
     this.size = 0;
-    this.elementSize = 0;
     this.randomness = 0;
     this.grid = [];
     var _this = this;
@@ -17,14 +16,15 @@ angular
     //////////////////////////////////////////////////////////////////////
     this.createGrid = function(size) {
         _this.size = size;
-        _this.elementSize = Math.floor(500 / size);
+        
+        var innerSize = Math.round(Math.sqrt(size));
         
         var generateValue = function(i) {
             var sideLength = Math.floor(Math.sqrt(size));
-            return Math.floor(i / 3) 
+            return Math.floor(i / innerSize) 
                 % sideLength 
                 + sideLength
-                * Math.floor(i / (3 * size)) + 1;
+                * Math.floor(i / (innerSize * size)) + 1;
         };
 
         for (var i = 0; i < Math.pow(size, 2); i++) {
@@ -58,16 +58,7 @@ angular
     };
 
     //////////////////////////////////////////////////////////////////////
-    // Return width in pixels
-    // TODO: should be implemented completely in view
-    //////////////////////////////////////////////////////////////////////
-    this.getWidthPixels = function() {
-        return _this.size * _this.elementSize;
-    };
-
-    //////////////////////////////////////////////////////////////////////
     // Rotate 3 x 3 subgrid (focused elements)
-    // TODO: generalize for n x n subgrid
     //////////////////////////////////////////////////////////////////////
     this.rotate = function() {
         _this.grid
@@ -117,7 +108,6 @@ angular
     //////////////////////////////////////////////////////////////////////
     // Toggle focus state of elements in 3 x 3 subgrid where @index
     // is the middle element
-    // TODO: generalize for n x n subgrid
     //////////////////////////////////////////////////////////////////////
     this.toggleFocus = function(index) {
         var s = _this.size;
@@ -156,20 +146,6 @@ angular
                 }
             }
         }
-        return check;
-    };
-})
-//////////////////////////////////////////////////////////////////////
-// The view
-//////////////////////////////////////////////////////////////////////
-.directive('gameGrid', function() {
-    return {
-        restrict: 'A',
-        scope: {
-            ngModel: '=',
-        },
-        templateUrl: 'js/grid/mainGrid.html'
+        return check === 1;
     };
 });
-
-

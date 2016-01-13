@@ -1,14 +1,14 @@
-<div class="main" ng-controller="gameController as gc">
+<div class="main" ng-controller="gameController as gc" ng-init="gridSize = 500">
     <div>
         <h1>Tile Typhoon</h1>
     </div>
     
     <!-- Actual game content -->
-    <div game-grid ng-model="gc.model" />
+    <div game-grid ng-model="gc.model" grid-size="gridSize"/>
 
     <!-- Instructions -->
-    <div class="legend" set-size w="gc.getWidthPixels()">
-        <p class="level">Level {{ gc.getRandomness() }}</p>
+    <div class="legend" ng-model = "gc.model" set-size w="gridSize">
+        <p class="level">Level {{ getRandomness() }}</p>
         <p class="instructions"><strong>Game goal</strong> is to order grid so that there is 9 squares consisting of 9 smaller tiles of the same color.</p>
         <p class="instructions"><strong>Tiles can be rearranged</strong> by clicking any 3 x 3 subgrid, which will rotate it clockwise.</p>
     </div>

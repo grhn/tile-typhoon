@@ -13,13 +13,7 @@ angular
             size: '=',
             content: '='
         },
-        templateUrl: 'js/grid/element.html',
-        link: function(scope, elem, attr){
-            scope.$watch('ngModel.elementSize', function(s){
-                elem.css('width', s);
-                elem.css('height', s);
-            });
-        }
-    };
+        templateUrl: 'js/view/element.html'
+    }
 });
 

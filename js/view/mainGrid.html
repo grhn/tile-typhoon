@@ -1,0 +1,24 @@
+<div 
+class="elements" 
+ng-init="elementSize = gridSize / ngModel.size - 1" 
+set-size w="gridSize" h="gridSize">
+    
+    <!-- Visible elements -->
+    <div ng-repeat="e in ngModel.grid">
+        <div class="element" set-size w="elementSize" h="elementSize">
+            <elem ng-model="ngModel" size="elementSize" content="e" />
+        </div>
+    </div>
+    
+    <!-- Control grid -->
+    <div class="selectedElements" set-size w="gridSize" h="gridSize">
+        <div ng-repeat="e in ngModel.grid">
+            <div 
+            class="selectedElement" 
+            ng-click="ngModel.rotate()" 
+            ng-mouseover="ngModel.toggleFocus($index)" 
+            ng-mouseout="ngModel.toggleFocus($index)" 
+            set-size w="elementSize" h="elementSize" />
+        </div>
+    </div>   
+</div>
