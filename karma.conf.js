@@ -18,7 +18,8 @@ module.exports = function(config) {
       'lib/angular.min.js',
       'lib/angular-mocks.js',
       'test/*.js',
-      'js/**/*.js'
+      'js/**/*.js',
+      'js/**/*.html'
     ],
 
 
@@ -31,7 +32,6 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

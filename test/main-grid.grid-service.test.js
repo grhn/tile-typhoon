@@ -1,8 +1,11 @@
 describe('grid service test:', function() {
-    beforeEach(module('mainGrid'));
-    beforeEach(inject(function(_GridService_) {
-        GridService = _GridService_;
-    }));
+    beforeEach(function() {
+        module('mainGrid');
+        
+        inject(function(_GridService_) {
+            GridService = _GridService_;
+        });
+    });
 
     it('generated grid should be consistent', function() {
         function check(size) {
