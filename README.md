@@ -1,4 +1,7 @@
 # Tile Typhoon
+
+![Travis build status](https://api.travis-ci.org/grhn/tile-typhoon.svg?branch=master)
+
 Single-player puzzle game made with AngularJS.
 
 ## Game instructions
