@@ -9,6 +9,7 @@ Rotate 3 x 3 subgrids clockwise by clicking them - game goal is to order grid so
 + jasmine
 + phantomjs
 + angular-mock
+
 `npm install` installs all development dependencies.
 
 ## Testing
@@ -19,3 +20,6 @@ Karma / Jasmine / PhantomJS are used for unit testing. Tests are located in 'tes
 #### TODO:
 + scoring
 + animations
+
+## Play
+http://grhn.github.io/
