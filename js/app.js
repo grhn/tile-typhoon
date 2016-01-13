@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-.module('rotateAndMatch', ['mainGrid', 'defaultView'])
+.module('tileTyphoonApp', ['mainGrid', 'defaultView'])
 .controller('gameController', function(GridService, $scope) { 
     //////////////////////////////////////////////////////////////////////
     // Initial values:

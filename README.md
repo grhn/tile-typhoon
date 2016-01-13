@@ -20,6 +20,7 @@ Karma / Jasmine / PhantomJS are used for unit testing. Tests are located in 'tes
 #### TODO:
 + scoring
 + animations
++ more tests
 
 ## Play
 http://grhn.github.io/
